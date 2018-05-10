@@ -121,14 +121,15 @@ def decide_who_goes_first():
     global turn
     turn = randint(1, 2)
     if turn == 2:
-        print("The computer go first!")
+        print("The computer goes first!")
     for x in range(0, len(boardFields)-1):
         play_round()
 
 
 def main():
-    get_logo()
-    get_introduction()
+    if False:
+        get_logo()
+        get_introduction()
     ask_player_for_weapon()
     decide_who_goes_first()
 
