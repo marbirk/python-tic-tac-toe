@@ -10,9 +10,11 @@ __license__ = "MIT"
 from random import randint
 
 player_weapon = ''
+computer_weapon = ''
 last_user_input = 0
 boardFields = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 turn = 0
+winner = 0
 
 
 def get_logo():
@@ -31,8 +33,17 @@ def get_logo():
 def ask_player_for_weapon():
     print("Please choose your weapon! X or O? ;-)")
     global player_weapon
+    global computer_weapon
     player_weapon = input().upper()
-    return player_weapon
+    if player_weapon == 'X':
+        computer_weapon = 'O'
+        return player_weapon
+    if player_weapon == 'O':
+        computer_weapon = 'X'
+        return player_weapon
+    else:
+        print("This character is not allowed!")
+        return ask_player_for_weapon()
 
 
 def field_already_used():
@@ -70,10 +81,18 @@ def set_computer_on_board(field_number):
 def computer_action():
     global boardFields
     prev_field = int(last_user_input) - 1
+    next_field = int(last_user_input) + 1
     if last_user_input == 0:
         set_computer_on_board(randint(1, 9))
     else:
-        print(prev_field)
+        if False:
+            if is_field_empty(prev_field):
+                set_computer_on_board(prev_field)
+            else:
+                if is_field_empty(next_field):
+                    set_computer_on_board(next_field)
+                else:
+                    print('next steps')
 
 
 def get_introduction():
@@ -107,14 +126,21 @@ def draw_board():
 
 
 def play_round():
+    global winner
     if turn == 1:
         player_action()
+        watch_for_a_winner()
         computer_action()
+        watch_for_a_winner()
         draw_board()
     if turn == 2:
         computer_action()
         draw_board()
+        watch_for_a_winner()
         player_action()
+        watch_for_a_winner()
+        if winner != 0:
+            draw_board()
 
 
 def decide_who_goes_first():
@@ -123,7 +149,86 @@ def decide_who_goes_first():
     if turn == 2:
         print("The computer goes first!")
     for x in range(0, len(boardFields)-1):
-        play_round()
+        if winner == 1:
+            print(" ")
+            print("You win!")
+            return False
+        if winner == 2:
+            print(" ")
+            print("You loose!")
+            return False
+        else:
+            play_round()
+
+
+def watch_for_a_winner():
+    global player_weapon
+    global computer_weapon
+    global winner
+    if boardFields[1] == player_weapon:
+        if boardFields[2] == player_weapon:
+            if boardFields[3] == player_weapon:
+                winner = 1
+    if boardFields[4] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[6] == player_weapon:
+                winner = 1
+    if boardFields[7] == player_weapon:
+        if boardFields[8] == player_weapon:
+            if boardFields[9] == player_weapon:
+                winner = 1
+    if boardFields[1] == player_weapon:
+        if boardFields[4] == player_weapon:
+            if boardFields[7] == player_weapon:
+                winner = 1
+    if boardFields[2] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[8] == player_weapon:
+                winner = 1
+    if boardFields[3] == player_weapon:
+        if boardFields[6] == player_weapon:
+            if boardFields[9] == player_weapon:
+                winner = 1
+    if boardFields[1] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[9] == player_weapon:
+                winner = 1
+    if boardFields[3] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[7] == player_weapon:
+                winner = 1
+    if boardFields[1] == computer_weapon:
+        if boardFields[2] == computer_weapon:
+            if boardFields[3] == computer_weapon:
+                winner = 2
+    if boardFields[4] == computer_weapon:
+        if boardFields[5] == computer_weapon:
+            if boardFields[6] == computer_weapon:
+                winner = 2
+    if boardFields[7] == computer_weapon:
+        if boardFields[8] == computer_weapon:
+            if boardFields[9] == computer_weapon:
+                winner = 2
+    if boardFields[1] == computer_weapon:
+        if boardFields[4] == computer_weapon:
+            if boardFields[7] == computer_weapon:
+                winner = 2
+    if boardFields[2] == computer_weapon:
+        if boardFields[5] == computer_weapon:
+            if boardFields[8] == computer_weapon:
+                winner = 2
+    if boardFields[3] == computer_weapon:
+        if boardFields[6] == computer_weapon:
+            if boardFields[9] == computer_weapon:
+                winner = 2
+    if boardFields[1] == computer_weapon:
+        if boardFields[5] == computer_weapon:
+            if boardFields[9] == computer_weapon:
+                winner = 2
+    if boardFields[3] == computer_weapon:
+        if boardFields[5] == computer_weapon:
+            if boardFields[7] == computer_weapon:
+                winner = 2
 
 
 def main():
