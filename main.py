@@ -17,6 +17,7 @@ boardFields = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 turn = 0
 winner = 0
 used_board_fields = 0
+user_name = ''
 
 
 def get_logo():
@@ -28,11 +29,23 @@ def get_logo():
     print("                   \/                 \/     \/                      \/ ")
     print(" ")
     print("Welcome Stranger!")
+
+
+def ask_player_for_name():
+    global user_name
     print(" ")
     print(" ")
+    print("What's your name?")
+    print("Your name: ")
+    user_name = input()
+    print(" ")
+    print(" ")
+    print("Hi " + user_name + "!")
 
 
 def ask_player_for_weapon():
+    print(" ")
+    print(" ")
     print("Please choose your weapon! X or O? ;-)")
     global player_weapon
     global computer_weapon
@@ -54,7 +67,7 @@ def field_already_used():
 
 
 def player_action():
-    print("It's your turn! Type a number from 1 to 9!")
+    print("It's your turn, " + user_name + "! Type a number from 1 to 9!")
     global last_user_input
     last_user_input = int(input())
     if boardFields[last_user_input] == 'X':
@@ -190,7 +203,7 @@ def ask_for_another_game():
         decide_who_goes_first()
     else:
         print(" ")
-        print("Good Bye!")
+        print("Good Bye, " + user_name + "!")
         sys.exit()
 
 
@@ -367,9 +380,9 @@ def watch_for_a_winner():
 
 
 def main():
-    if False:
-        get_logo()
-        get_introduction()
+    get_logo()
+    ask_player_for_name()
+    get_introduction()
     ask_player_for_weapon()
     decide_who_goes_first()
 
