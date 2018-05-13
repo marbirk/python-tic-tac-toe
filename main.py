@@ -8,6 +8,7 @@ __version__ = "0.1.0"
 __license__ = "MIT"
 
 from random import randint
+import sys
 
 player_weapon = ''
 computer_weapon = ''
@@ -54,14 +55,13 @@ def field_already_used():
 def player_action():
     print("It's your turn! Type a number from 1 to 9!")
     global last_user_input
-    last_user_input = input()
-    global boardFields
-    if boardFields[int(last_user_input)] == 'X':
+    last_user_input = int(input())
+    if boardFields[last_user_input] == 'X':
         field_already_used()
-    if boardFields[int(last_user_input)] == 'O':
+    if boardFields[last_user_input] == 'O':
         field_already_used()
     else:
-        boardFields[int(last_user_input)] = player_weapon
+        boardFields[last_user_input] = player_weapon
 
 
 def is_field_empty(field):
@@ -79,20 +79,112 @@ def set_computer_on_board(field_number):
 
 
 def computer_action():
-    global boardFields
-    prev_field = int(last_user_input) - 1
-    next_field = int(last_user_input) + 1
     if last_user_input == 0:
-        set_computer_on_board(randint(1, 9))
+        set_computer_on_board(5)
+        return False
+    if last_user_input == 1:
+        if boardFields[2] == " ":
+            set_computer_on_board(2)
+            return False
+        if boardFields[4] == " ":
+            set_computer_on_board(4)
+            return False
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+    if last_user_input == 2:
+        if boardFields[1] == " ":
+            set_computer_on_board(1)
+            return False
+        if boardFields[3] == " ":
+            set_computer_on_board(3)
+            return False
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+    if last_user_input == 3:
+        if boardFields[2] == " ":
+            set_computer_on_board(2)
+            return False
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+        if boardFields[6] == " ":
+            set_computer_on_board(6)
+            return False
+    if last_user_input == 4:
+        if boardFields[1] == " ":
+            set_computer_on_board(1)
+            return False
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+        if boardFields[7] == " ":
+            set_computer_on_board(7)
+            return False
+    if last_user_input == 5:
+        for x in range(1, len(boardFields)):
+            if x != 5:
+                if boardFields[x] == " ":
+                    set_computer_on_board(x)
+                    return False
+    if last_user_input == 6:
+        if boardFields[3] == " ":
+            set_computer_on_board(3)
+            return False
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+        if boardFields[9] == " ":
+            set_computer_on_board(9)
+            return False
+    if last_user_input == 7:
+        if boardFields[4] == " ":
+            set_computer_on_board(4)
+            return False
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+        if boardFields[9] == " ":
+            set_computer_on_board(9)
+            return False
+    if last_user_input == 8:
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+        if boardFields[7] == " ":
+            set_computer_on_board(7)
+            return False
+        if boardFields[9] == " ":
+            set_computer_on_board(9)
+            return False
+    if last_user_input == 9:
+        if boardFields[5] == " ":
+            set_computer_on_board(5)
+            return False
+        if boardFields[6] == " ":
+            set_computer_on_board(6)
+            return False
+        if boardFields[8] == " ":
+            set_computer_on_board(8)
+            return False
     else:
-        if False:
-            if is_field_empty(prev_field):
-                set_computer_on_board(prev_field)
-            else:
-                if is_field_empty(next_field):
-                    set_computer_on_board(next_field)
-                else:
-                    print('next steps')
+        for x in range(1, len(boardFields)):
+            if boardFields[x] == " ":
+                set_computer_on_board(x)
+                return False
+
+
+def ask_for_another_game():
+    print("Do you wanna play another game?")
+    print("Type yes or no!")
+    answer = input()
+    if answer == 'yes':
+        reset_game()
+        ask_player_for_weapon()
+        decide_who_goes_first()
+    else:
+        sys.exit()
 
 
 def get_introduction():
@@ -114,15 +206,19 @@ def get_introduction():
         print(" ")
         print(" ")
     else:
-        return
+        return True
 
 
 def draw_board():
+    print(" ")
+    print(" ")
     print(boardFields[1] + " | " + boardFields[2] + " | " + boardFields[3])
     print("---------")
     print(boardFields[4] + " | " + boardFields[5] + " | " + boardFields[6])
     print("---------")
     print(boardFields[7] + " | " + boardFields[8] + " | " + boardFields[9])
+    print(" ")
+    print(" ")
 
 
 def play_round():
@@ -130,17 +226,48 @@ def play_round():
     if turn == 1:
         player_action()
         watch_for_a_winner()
-        computer_action()
-        watch_for_a_winner()
-        draw_board()
-    if turn == 2:
-        computer_action()
-        draw_board()
-        watch_for_a_winner()
-        player_action()
-        watch_for_a_winner()
         if winner != 0:
             draw_board()
+        else:
+            computer_action()
+            watch_for_a_winner()
+            draw_board()
+    if turn == 2:
+        computer_action()
+        watch_for_a_winner()
+        draw_board()
+        if winner == 0:
+            player_action()
+            watch_for_a_winner()
+
+
+def reset_game():
+    global boardFields
+    global player_weapon
+    global computer_weapon
+    global last_user_input
+    global turn
+    global winner
+    player_weapon = ''
+    computer_weapon = ''
+    last_user_input = 0
+    boardFields = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+    turn = 0
+    winner = 0
+
+
+def play_round_or_exit():
+    for x in range(0, 10):
+        if winner == 1:
+            print(" ")
+            print("Congrats! You win!")
+            ask_for_another_game()
+        if winner == 2:
+            print(" ")
+            print("You loose! What a pity!")
+            ask_for_another_game()
+        else:
+            play_round()
 
 
 def decide_who_goes_first():
@@ -148,17 +275,7 @@ def decide_who_goes_first():
     turn = randint(1, 2)
     if turn == 2:
         print("The computer goes first!")
-    for x in range(0, len(boardFields)-1):
-        if winner == 1:
-            print(" ")
-            print("You win!")
-            return False
-        if winner == 2:
-            print(" ")
-            print("You loose!")
-            return False
-        else:
-            play_round()
+    play_round_or_exit()
 
 
 def watch_for_a_winner():
