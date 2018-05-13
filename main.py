@@ -16,6 +16,7 @@ last_user_input = 0
 boardFields = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 turn = 0
 winner = 0
+used_board_fields = 0
 
 
 def get_logo():
@@ -61,6 +62,8 @@ def player_action():
     if boardFields[last_user_input] == 'O':
         field_already_used()
     else:
+        global used_board_fields
+        used_board_fields += 1
         boardFields[last_user_input] = player_weapon
 
 
@@ -72,6 +75,8 @@ def is_field_empty(field):
 
 
 def set_computer_on_board(field_number):
+    global used_board_fields
+    used_board_fields += 1
     if player_weapon == "X":
         boardFields[field_number] = "O"
     else:
@@ -80,7 +85,7 @@ def set_computer_on_board(field_number):
 
 def computer_action():
     if last_user_input == 0:
-        set_computer_on_board(5)
+        set_computer_on_board(randint(1, 9))
         return False
     if last_user_input == 1:
         if boardFields[2] == " ":
@@ -184,6 +189,8 @@ def ask_for_another_game():
         ask_player_for_weapon()
         decide_who_goes_first()
     else:
+        print(" ")
+        print("Good Bye!")
         sys.exit()
 
 
@@ -239,6 +246,8 @@ def play_round():
         if winner == 0:
             player_action()
             watch_for_a_winner()
+        if winner != 0:
+            draw_board()
 
 
 def reset_game():
@@ -248,16 +257,18 @@ def reset_game():
     global last_user_input
     global turn
     global winner
+    global used_board_fields
     player_weapon = ''
     computer_weapon = ''
     last_user_input = 0
     boardFields = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
     turn = 0
     winner = 0
+    used_board_fields = 0
 
 
 def play_round_or_exit():
-    for x in range(0, 10):
+    for x in range(0, 999):
         if winner == 1:
             print(" ")
             print("Congrats! You win!")
@@ -267,13 +278,20 @@ def play_round_or_exit():
             print("You loose! What a pity!")
             ask_for_another_game()
         else:
-            play_round()
+            if used_board_fields == 9:
+                draw_board()
+                print("It's a tie!")
+                ask_for_another_game()
+            else:
+                play_round()
 
 
 def decide_who_goes_first():
     global turn
     turn = randint(1, 2)
     if turn == 2:
+        global used_board_fields
+        used_board_fields = 1
         print("The computer goes first!")
     play_round_or_exit()
 
