@@ -4,7 +4,7 @@ Module Docstring
 """
 
 __author__ = "Marcel Birkhahn"
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 __license__ = "MIT"
 
 from random import randint
