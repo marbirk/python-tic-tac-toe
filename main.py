@@ -4,7 +4,7 @@ Module Docstring
 """
 
 __author__ = "Marcel Birkhahn"
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __license__ = "MIT"
 
 from random import randint
@@ -100,6 +100,76 @@ def computer_action():
     if last_user_input == 0:
         set_computer_on_board(randint(1, 9))
         return False
+    if boardFields[1] == player_weapon:
+        if boardFields[2] == player_weapon:
+            if boardFields[3] == " ":
+                set_computer_on_board(3)
+                return False
+    if boardFields[4] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[6] == " ":
+                set_computer_on_board(6)
+                return False
+    if boardFields[7] == player_weapon:
+        if boardFields[8] == player_weapon:
+            if boardFields[9] == " ":
+                set_computer_on_board(9)
+                return False
+    if boardFields[2] == player_weapon:
+        if boardFields[3] == player_weapon:
+            if boardFields[1] == " ":
+                set_computer_on_board(1)
+                return False
+    if boardFields[5] == player_weapon:
+        if boardFields[6] == player_weapon:
+            if boardFields[4] == " ":
+                set_computer_on_board(4)
+                return False
+    if boardFields[8] == player_weapon:
+        if boardFields[9] == player_weapon:
+            if boardFields[7] == " ":
+                set_computer_on_board(7)
+                return False
+    if boardFields[1] == player_weapon:
+        if boardFields[4] == player_weapon:
+            if boardFields[7] == " ":
+                set_computer_on_board(7)
+                return False
+    if boardFields[2] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[8] == " ":
+                set_computer_on_board(8)
+                return False
+    if boardFields[3] == player_weapon:
+        if boardFields[6] == player_weapon:
+            if boardFields[9] == " ":
+                set_computer_on_board(9)
+                return False
+    if boardFields[4] == player_weapon:
+        if boardFields[7] == player_weapon:
+            if boardFields[1] == " ":
+                set_computer_on_board(1)
+                return False
+    if boardFields[5] == player_weapon:
+        if boardFields[8] == player_weapon:
+            if boardFields[2] == " ":
+                set_computer_on_board(2)
+                return False
+    if boardFields[6] == player_weapon:
+        if boardFields[9] == player_weapon:
+            if boardFields[3] == " ":
+                set_computer_on_board(3)
+                return False
+    if boardFields[1] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[9] == " ":
+                set_computer_on_board(9)
+                return False
+    if boardFields[3] == player_weapon:
+        if boardFields[5] == player_weapon:
+            if boardFields[7] == " ":
+                set_computer_on_board(7)
+                return False
     if last_user_input == 1:
         if boardFields[2] == " ":
             set_computer_on_board(2)
@@ -284,7 +354,7 @@ def play_round_or_exit():
     for x in range(0, 999):
         if winner == 1:
             print(" ")
-            print("Congrats! You win!")
+            print("Congrats, " + user_name + "! You win!")
             ask_for_another_game()
         if winner == 2:
             print(" ")
